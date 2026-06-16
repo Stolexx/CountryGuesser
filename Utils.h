@@ -28,7 +28,9 @@ char* remove_spaces(char* txt);
 char **split_by(char *txt, char *delimiter, int *count);
 void print_table(int rows, int columns, char *data[rows][columns]);
 int read_line(char *buf, int size);
+void fold_accents(char *txt);
 void normalize_guess(char *txt);
+int read_country_line(const char *prompt, char *buf, int size, char **keys, int n_keys);
 // Dictionary.c
 unsigned int hash(const char *key);
 Dictionary* create_dictionary();

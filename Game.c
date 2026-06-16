@@ -39,8 +39,12 @@ void start_game(Game* game) {
 int guess(Game* game) {
     game->guess++;
     char guess[64];
-    printf("Essai n°%d — Nom du pays : ", game->guess);
-    if (!read_line(guess, sizeof(guess))) {
+    char prompt[96];
+    snprintf(prompt, sizeof(prompt), "Essai n°%d — Nom du pays (Tab pour compléter) : ", game->guess);
+    char** keys = get_keys(COUNTRIES);
+    int ok = read_country_line(prompt, guess, sizeof(guess), keys, COUNTRIES_COUNT);
+    free(keys);
+    if (!ok) {
         // Fin d'entrée (Ctrl+D) : on quitte proprement
         printf("\nFin de saisie. Au revoir !\n");
         free_dictionary(COUNTRIES);

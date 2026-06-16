@@ -34,7 +34,7 @@ int main() {
     printf("Pays chargés !\n");
 
     printf("\n >>> " BLK WHTB " Country Guessr 1.0 " reset " <<<\n");
-    printf(RED "Astuce : la casse et les espaces sont ignorés (« costa rica » = « Costa_Rica »). Écrivez les noms sans accents.\n" reset);
+    printf(RED "Astuce : la casse, les accents et les espaces sont ignorés (« équateur » = « Equateur »). Appuyez sur " BRED "Tab" reset RED " pour compléter un nom.\n" reset);
     printf(RED "Tapez " BRED "/abandon" reset RED " pour révéler la réponse.\n\n" reset);
 
     init();
