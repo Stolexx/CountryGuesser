@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Dictionary *COUNTRIES;
-int COUNTRIES_COUNT = 191;
+int COUNTRIES_COUNT = 0; // défini dynamiquement à la fin de load_countries()
 
 void add_country(Dictionary* list, char* country, char* continent, char* language, char* population, char* currency, char* borders, char* colors) {
     add_entry(list, country, continent);
@@ -14,7 +14,7 @@ void add_country(Dictionary* list, char* country, char* continent, char* languag
 
 void load_countries() {
     COUNTRIES = create_dictionary();
-    // 191 pays
+    // 192 pays
     add_country(COUNTRIES, "Afghanistan", "Asie", "Dari, Pashto", "38000000", "Afghani", "6", "Noir, Rouge, Vert");
     add_country(COUNTRIES, "Albanie", "Europe", "Albanais", "2800000", "Lek", "4", "Rouge, Noir");
     add_country(COUNTRIES, "Algerie", "Afrique", "Arabe", "43000000", "Dinar algerien", "6", "Vert, Blanc, Rouge");
@@ -40,7 +40,7 @@ void load_countries() {
     add_country(COUNTRIES, "Bresil", "Amerique", "Portugais", "212000000", "Real", "10", "Vert, Jaune, Bleu");
     add_country(COUNTRIES, "Brunei", "Asie", "Malais", "437000", "Dollar bruneien", "2", "Jaune, Blanc, Noir");
     add_country(COUNTRIES, "Bulgarie", "Europe", "Bulgare", "7000000", "Lev", "5", "Blanc, Vert, Rouge");
-    add_country(COUNTRIES, "Burkina Faso", "Afrique", "Français", "20000000", "Franc CFA", "6", "Rouge, Vert");
+    add_country(COUNTRIES, "Burkina_Faso", "Afrique", "Français", "20000000", "Franc CFA", "6", "Rouge, Vert");
     add_country(COUNTRIES, "Burundi", "Afrique", "Kirundi, Français", "11000000", "Franc burundais", "3", "Rouge, Vert, Blanc");
     add_country(COUNTRIES, "Cambodge", "Asie", "Khmer", "16000000", "Riel", "3", "Bleu, Rouge");
     add_country(COUNTRIES, "Cameroun", "Afrique", "Français, Anglais", "25000000", "Franc CFA", "6", "Vert, Rouge, Jaune");
@@ -58,11 +58,11 @@ void load_countries() {
     add_country(COUNTRIES, "Croatie", "Europe", "Croate", "4000000", "Kuna", "5", "Rouge, Blanc, Bleu");
     add_country(COUNTRIES, "Cuba", "Amerique", "Espagnol", "11000000", "Peso cubain", "0", "Rouge, Blanc, Bleu");
     add_country(COUNTRIES, "Chypre", "Europe", "Grec, Turc", "1200000", "Euro", "1", "Blanc, Orange, Vert");
-    add_country(COUNTRIES, "Republique Tcheque", "Europe", "Tcheque", "10700000", "Couronne tcheque", "4", "Rouge, Blanc, Bleu");
+    add_country(COUNTRIES, "Republique_Tcheque", "Europe", "Tcheque", "10700000", "Couronne tcheque", "4", "Rouge, Blanc, Bleu");
     add_country(COUNTRIES, "Danemark", "Europe", "Danois", "5800000", "Couronne danoise", "1", "Rouge, Blanc");
     add_country(COUNTRIES, "Djibouti", "Afrique", "Français, Arabe", "1000000", "Franc djiboutien", "3", "Vert, Blanc, Bleu, Rouge");
-    add_country(COUNTRIES, "Dominique", "Amerique", "Anglais", "72,000", "Dollar des Caraibes orientales", "0", "Vert, Jaune, Rouge, Noir");
-    add_country(COUNTRIES, "Republique dominicaine", "Amerique", "Espagnol", "10800000", "Peso dominicain", "1", "Rouge, Blanc, Bleu");
+    add_country(COUNTRIES, "Dominique", "Amerique", "Anglais", "72000", "Dollar des Caraibes orientales", "0", "Vert, Jaune, Rouge, Noir");
+    add_country(COUNTRIES, "Republique_dominicaine", "Amerique", "Espagnol", "10800000", "Peso dominicain", "1", "Rouge, Blanc, Bleu");
     add_country(COUNTRIES, "Equateur", "Amerique", "Espagnol", "17000000", "Dollar americain", "2", "Jaune, Bleu, Rouge");
     add_country(COUNTRIES, "Egypte", "Afrique", "Arabe", "100000000", "Livre egyptienne", "4", "Rouge, Blanc, Noir");
     add_country(COUNTRIES, "El_Salvador", "Amerique", "Espagnol", "6500000", "Dollar americain", "2", "Bleu, Blanc");
@@ -70,7 +70,7 @@ void load_countries() {
     add_country(COUNTRIES, "Erythree", "Afrique", "Tigrigna, Arabe, Anglais", "3500000", "Nakfa", "3", "Vert, Bleu, Rouge");
     add_country(COUNTRIES, "Estonie", "Europe", "Estonien", "1300000", "Euro", "2", "Bleu, Noir, Blanc");
     add_country(COUNTRIES, "Eswatini", "Afrique", "Swati, Anglais", "1100000", "Lilangeni", "2", "Bleu, Jaune, Rouge, Blanc");
-    add_country(COUNTRIES, "ethiopie", "Afrique", "Amharique", "112000000", "Birr", "6", "Vert, Jaune, Rouge");
+    add_country(COUNTRIES, "Ethiopie", "Afrique", "Amharique", "112000000", "Birr", "6", "Vert, Jaune, Rouge");
     add_country(COUNTRIES, "Fidji", "Oceanie", "Anglais, Fidjien, Hindoustani", "896000", "Dollar fidjien", "0", "Bleu, Blanc, Rouge");
     add_country(COUNTRIES, "Finlande", "Europe", "Finnois, Suedois", "5500000", "Euro", "3", "Bleu, Blanc");
     add_country(COUNTRIES, "France", "Europe", "Français", "67000000", "Euro", "8", "Bleu, Blanc, Rouge");
@@ -94,7 +94,7 @@ void load_countries() {
     add_country(COUNTRIES, "Iran", "Asie", "Persan", "83000000", "Rial iranien", "7", "Vert, Blanc, Rouge");
     add_country(COUNTRIES, "Irak", "Asie", "Arabe, Kurde", "40000000", "Dinar irakien", "6", "Rouge, Blanc, Noir, Vert");
     add_country(COUNTRIES, "Irlande", "Europe", "Irlandais, Anglais", "4900000", "Euro", "1", "Vert, Blanc, Orange");
-    add_country(COUNTRIES, "Israël", "Asie", "Hebreu, Arabe", "9000000", "Shekel", "5", "Bleu, Blanc");
+    add_country(COUNTRIES, "Israel", "Asie", "Hebreu, Arabe", "9000000", "Shekel", "5", "Bleu, Blanc");
     add_country(COUNTRIES, "Italie", "Europe", "Italien", "60000000", "Euro", "6", "Vert, Blanc, Rouge");
     add_country(COUNTRIES, "Jamaique", "Amerique", "Anglais", "2900000", "Dollar jamaicain", "0", "Noir, Vert, Jaune");
     add_country(COUNTRIES, "Japon", "Asie", "Japonais", "126000000", "Yen", "0", "Rouge, Blanc");
@@ -121,7 +121,7 @@ void load_countries() {
     add_country(COUNTRIES, "Maldives", "Asie", "Dhivehi", "540000", "Rufiyaa", "0", "Rouge, Vert, Blanc");
     add_country(COUNTRIES, "Mali", "Afrique", "Français", "19000000", "Franc CFA", "7", "Vert, Jaune, Rouge");
     add_country(COUNTRIES, "Malte", "Europe", "Maltais, Anglais", "514000", "Euro", "0", "Rouge, Blanc");
-    add_country(COUNTRIES, "Iles_Marshall", "Oceanie", "Anglais, Marshallais", "59,000", "Dollar americain", "0", "Bleu, Orange, Blanc");
+    add_country(COUNTRIES, "Iles_Marshall", "Oceanie", "Anglais, Marshallais", "59000", "Dollar americain", "0", "Bleu, Orange, Blanc");
     add_country(COUNTRIES, "Mauritanie", "Afrique", "Arabe", "4500000", "Ouguiya", "3", "Vert, Jaune");
     add_country(COUNTRIES, "Maurice", "Afrique", "Anglais", "1300000", "Roupie mauricienne", "0", "Rouge, Bleu, Jaune, Vert");
     add_country(COUNTRIES, "Mexique", "Amerique", "Espagnol", "128000000", "Peso mexicain", "3", "Vert, Blanc, Rouge");
@@ -178,19 +178,19 @@ void load_countries() {
     add_country(COUNTRIES, "Espagne", "Europe", "Espagnol", "47000000", "Euro", "5", "Rouge, Jaune");
     add_country(COUNTRIES, "Sri_Lanka", "Asie", "Cinghalais, Tamoul", "21000000", "Roupie sri-lankaise", "0", "Rouge, Jaune, Vert, Orange");
     add_country(COUNTRIES, "Soudan", "Afrique", "Arabe", "43000000", "Livre soudanaise", "7", "Rouge, Blanc, Noir, Vert");
-    add_country(COUNTRIES, "Suriname", "Amerique", "Neerlandais", "586,000", "Dollar surinamais", "3", "Vert, Blanc, Rouge, Jaune");
+    add_country(COUNTRIES, "Suriname", "Amerique", "Neerlandais", "586000", "Dollar surinamais", "3", "Vert, Blanc, Rouge, Jaune");
     add_country(COUNTRIES, "Suede", "Europe", "Suedois", "10000000", "Couronne suedoise", "2", "Bleu, Jaune");
     add_country(COUNTRIES, "Suisse", "Europe", "Allemand, Français, Italien, Romanche", "8500000", "Franc suisse", "5", "Rouge, Blanc");
     add_country(COUNTRIES, "Syrie", "Asie", "Arabe", "17500000", "Livre syrienne", "5", "Rouge, Blanc, Noir, Vert");
     add_country(COUNTRIES, "Tadjikistan", "Asie", "Tadjik", "9500000", "Somoni", "4", "Rouge, Blanc, Vert");
     add_country(COUNTRIES, "Tanzanie", "Afrique", "Swahili, Anglais", "58000000", "Shilling tanzanien", "8", "Vert, Jaune, Noir, Bleu");
     add_country(COUNTRIES, "Thailande", "Asie", "Thai", "69000000", "Baht", "4", "Rouge, Blanc, Bleu");
-    add_country(COUNTRIES, "Timor oriental", "Asie", "Tetum, Portugais", "1300000", "Dollar americain", "3", "Rouge, Jaune, Noir, Blanc");
+    add_country(COUNTRIES, "Timor_oriental", "Asie", "Tetum, Portugais", "1300000", "Dollar americain", "3", "Rouge, Jaune, Noir, Blanc");
     add_country(COUNTRIES, "Togo", "Afrique", "Français", "8000000", "Franc CFA", "3", "Vert, Jaune, Rouge, Blanc");
     add_country(COUNTRIES, "Tonga", "Oceanie", "Tongien, Anglais", "105000", "Pa'anga", "0", "Rouge, Blanc");
     add_country(COUNTRIES, "Trinite-et-Tobago", "Amerique", "Anglais", "1400000", "Dollar trinidadien", "0", "Rouge, Blanc, Noir");
     add_country(COUNTRIES, "Tunisie", "Afrique", "Arabe", "12000000", "Dinar tunisien", "2", "Rouge, Blanc");
-    add_country(COUNTRIES, "Turquie", "Europe/Asie", "Turc", "84000000", "Livre turque", "8", "Rouge, Blanc");
+    add_country(COUNTRIES, "Turquie", "Europe, Asie", "Turc", "84000000", "Livre turque", "8", "Rouge, Blanc");
     add_country(COUNTRIES, "Turkmenistan", "Asie", "Turkmene", "6000000", "Manat", "4", "Vert, Blanc, Rouge");
     add_country(COUNTRIES, "Tuvalu", "Oceanie", "Tuvaluan, Anglais", "11000", "Dollar australien", "0", "Bleu, Jaune");
     add_country(COUNTRIES, "Ouganda", "Afrique", "Anglais, Swahili", "42000000", "Shilling ougandais", "5", "Noir, Jaune, Rouge");
@@ -207,4 +207,7 @@ void load_countries() {
     add_country(COUNTRIES, "Yemen", "Asie", "Arabe", "30000000", "Rial yemenite", "2", "Rouge, Blanc, Noir");
     add_country(COUNTRIES, "Zambie", "Afrique", "Anglais", "18000000", "Kwacha zambien", "8", "Vert, Rouge, Noir, Orange");
     add_country(COUNTRIES, "Zimbabwe", "Afrique", "Anglais, Shona, Ndebele", "15000000", "Dollar zimbabween", "4", "Vert, Jaune, Rouge, Noir");
+
+    // Nombre réel de pays chargés (évite tout décalage si la liste change)
+    COUNTRIES_COUNT = COUNTRIES->size;
 }

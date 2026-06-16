@@ -1,10 +1,11 @@
 #include "Utils.h"
 
-// Fonction de hachage simple
+// Fonction de hachage simple (insensible à la casse : "France" et "france"
+// tombent dans le même bucket, indispensable pour une recherche insensible à la casse)
 unsigned int hash(const char *key) {
     unsigned int hash = 0;
     while (*key) {
-        hash = (hash << 5) + *key++;
+        hash = (hash << 5) + tolower((unsigned char) *key++);
     }
     return hash % TABLE_SIZE;
 }
@@ -64,7 +65,10 @@ void add_entry(Dictionary *dict, const char *key, const char *value) {
         prev = entry;
         entry = entry->next;
     }
+    // Nouvelle clé ajoutée en fin de liste chaînée : compter aussi cette entrée
+    // (sinon dict->size sous-évalue le nombre de clés et get_keys déborde)
     prev->next = create_entry(key, value);
+    dict->size++;
 }
 
 // Fonction pour rechercher une entrée dans le dictionnaire
@@ -73,7 +77,7 @@ Entry* get_entry(Dictionary *dict, const char *key) {
     Entry *entry = dict->entries[index];
 
     while (entry != NULL) {
-        if (strcmp(to_lowercase(entry->key), to_lowercase(key)) == 0) {
+        if (strcasecmp(entry->key, key) == 0) {
             return entry;
         }
         entry = entry->next;

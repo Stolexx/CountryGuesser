@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <ctype.h>
 
 #define TABLE_SIZE 200
@@ -23,10 +24,11 @@ typedef struct {
 } Dictionary;
 
 // Utils.c
-char* to_lowercase(const char* txt);
 char* remove_spaces(char* txt);
 char **split_by(char *txt, char *delimiter, int *count);
 void print_table(int rows, int columns, char *data[rows][columns]);
+int read_line(char *buf, int size);
+void normalize_guess(char *txt);
 // Dictionary.c
 unsigned int hash(const char *key);
 Dictionary* create_dictionary();

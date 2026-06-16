@@ -4,7 +4,9 @@
 int GAMES = 0;
 
 void start_game(Game* game) {
-    Entry* entry = get_entry(COUNTRIES, get_keys(COUNTRIES)[arc4random() % COUNTRIES_COUNT]);
+    char** keys = get_keys(COUNTRIES);
+    Entry* entry = get_entry(COUNTRIES, keys[arc4random() % COUNTRIES_COUNT]);
+    free(keys);
     game->country = entry->key;
     for(int i = 0; i < entry->values_count; i++) {
         switch (i)
@@ -31,17 +33,30 @@ void start_game(Game* game) {
             break;
         }
     }
-    printf("Game started! (ID:%d)\n", get_id(game));
+    printf("Partie lancée ! (ID : %d)\n", get_id(game));
 }
 
 int guess(Game* game) {
     game->guess++;
-    char guess[50];
-    printf("Nom du pays: ");
-    scanf("%s", guess);
+    char guess[64];
+    printf("Essai n°%d — Nom du pays : ", game->guess);
+    if (!read_line(guess, sizeof(guess))) {
+        // Fin d'entrée (Ctrl+D) : on quitte proprement
+        printf("\nFin de saisie. Au revoir !\n");
+        free_dictionary(COUNTRIES);
+        exit(0);
+    }
+    normalize_guess(guess);
+
+    if (strcasecmp(guess, "/abandon") == 0) {
+        printf(YEL "Manche abandonnée. La réponse était : " BYEL "%s\n" reset, game->country);
+        print_result(game);
+        return 1;
+    }
+
     Entry* entry = get_entry(COUNTRIES, guess);
     if(entry != NULL) {
-        if(strcmp(to_lowercase(guess), to_lowercase(game->country)) == 0) {
+        if(strcasecmp(guess, game->country) == 0) {
             printf(GRN "Correct!\n" reset);
             printf(GRN "Vous avez trouvé en " UWHT "%d" reset GRN " essai(s)\n" reset, game->guess);
             print_result(game);
@@ -52,7 +67,7 @@ int guess(Game* game) {
             return 0;
         }
     }else {
-        printf(RED "Faux! Ce pays n'est pas dans la liste\n" BRED "/!\\" RED " Ne pas oublier les majuscules et de remplacer les accents\n" reset);
+        printf(RED "Faux! Ce pays n'est pas dans la liste\n" BRED "/!\\" RED " Vérifiez l'orthographe (les accents et tirets comptent ; la casse et les espaces non)\n" reset);
         return 0;
     }
 }
@@ -62,22 +77,24 @@ void compare_countries(Game* game, Entry* entry) {
     // Si résultat +/-/= : 0 = moins / 1 = plus / 2 = égal
     int results[6] = {0,0,0,0,0,0};
     // Continent
-    if(!strcmp(to_lowercase(game->continent), to_lowercase(entry->values[0]))) {
+    if(!strcasecmp(game->continent, entry->values[0])) {
         results[0] = 1;
     }
     // Langue
-    int size_languages_r = -1, size_languages_e = -1;
+    int size_languages_r = 0, size_languages_e = 0;
     char** result_languages = split_by(game->language, ",", &size_languages_r);
     char** entry_languages = split_by(entry->values[1], ",", &size_languages_e);
     for(int i = 0; i < size_languages_r; i++) {
         for(int j = 0; j < size_languages_e; j++) {
-            if(!strcmp(to_lowercase(result_languages[i]), to_lowercase(entry_languages[j]))) {
+            if(!strcasecmp(result_languages[i], entry_languages[j])) {
                 results[1] = 1;
                 break;
             }
         }
     }
+    for(int i = 0; i < size_languages_r; i++) free(result_languages[i]);
     free(result_languages);
+    for(int j = 0; j < size_languages_e; j++) free(entry_languages[j]);
     free(entry_languages);
     // Population
     if(atoi(game->population) < atoi(entry->values[2])) {
@@ -88,7 +105,7 @@ void compare_countries(Game* game, Entry* entry) {
         results[2] = 2;
     }
     // Devise
-    if(!strcmp(to_lowercase(game->currency), to_lowercase(entry->values[3]))) {
+    if(!strcasecmp(game->currency, entry->values[3])) {
         results[3] = 1;
     }
     // Frontières
@@ -100,18 +117,20 @@ void compare_countries(Game* game, Entry* entry) {
         results[4] = 2;
     }
     // Couleurs
-    int size_colors_r = -1, size_colors_e = -1;
+    int size_colors_r = 0, size_colors_e = 0;
     char** result_colors = split_by(game->colors, ",", &size_colors_r);
     char** entry_colors = split_by(entry->values[5], ",", &size_colors_e);
     for(int i = 0; i < size_colors_r; i++) {
         for(int j = 0; j < size_colors_e; j++) {
-            if(strcmp(to_lowercase(result_colors[i]), to_lowercase(entry_colors[j])) == 0) {
+            if(strcasecmp(result_colors[i], entry_colors[j]) == 0) {
                 results[5] = 1;
                 break;
             }
         }
     }
+    for(int i = 0; i < size_colors_r; i++) free(result_colors[i]);
     free(result_colors);
+    for(int j = 0; j < size_colors_e; j++) free(entry_colors[j]);
     free(entry_colors);
 
     printf(BCYN "RESULTATS\n" reset);

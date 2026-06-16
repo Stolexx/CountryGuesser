@@ -3,15 +3,36 @@
 
 // STRINGS
 
-char* to_lowercase(const char* txt) {
-    char* result = malloc(strlen(txt) + 1);
-    char *temp = result;
-    while(*txt) {
-        *temp++ = tolower((unsigned char) *txt);
-        txt++;
+// Lit une ligne complète sur stdin dans buf (taille size), retire le saut de
+// ligne final et vide le reste de la ligne si elle dépasse le tampon.
+// Renvoie 1 en cas de succès, 0 sur fin d'entrée (EOF / Ctrl+D).
+int read_line(char *buf, int size) {
+    if (fgets(buf, size, stdin) == NULL) {
+        return 0;
     }
-    *temp = '\0';
-    return result;
+    size_t len = strcspn(buf, "\n");
+    if (buf[len] == '\n') {
+        buf[len] = '\0';
+    } else {
+        // Pas de saut de ligne lu : on jette le reste de la ligne
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) {}
+    }
+    return 1;
+}
+
+// Normalise la saisie du joueur : supprime les espaces de début/fin et
+// remplace les espaces internes par des tirets bas ("costa rica" -> "costa_rica").
+void normalize_guess(char *txt) {
+    size_t n = strlen(txt);
+    size_t i = 0, j = n;
+    while (i < n && isspace((unsigned char) txt[i])) i++;
+    while (j > i && isspace((unsigned char) txt[j - 1])) j--;
+    size_t k = 0;
+    for (size_t p = i; p < j; p++) {
+        txt[k++] = (txt[p] == ' ') ? '_' : txt[p];
+    }
+    txt[k] = '\0';
 }
 
 char* remove_spaces(char* txt) {
@@ -27,24 +48,33 @@ char* remove_spaces(char* txt) {
     return result;
 }
 
+// Découpe txt selon delimiter. Travaille sur une COPIE (strtok_r écrit des '\0'
+// dans la source ; sans copie il corromprait définitivement les données du
+// dictionnaire). Chaque token est dupliqué (à libérer par l'appelant) et ses
+// espaces de début/fin sont retirés. Une valeur sans délimiteur renvoie 1 token.
 char **split_by(char *txt, char *delimiter, int *count) {
-    char *token;
-    char *rest = txt;
-    int initial_size = 10;
-    char **result = malloc(initial_size * sizeof(char *));
+    int capacity = 10;
+    char **result = malloc(capacity * sizeof(char *));
     *count = 0;
 
-    if (strstr(txt, delimiter) != NULL) {
-        token = strtok_r(rest, delimiter, &rest);
-        while (token != NULL) {
-            if (*count >= initial_size) {
-                initial_size *= 2;
-                result = realloc(result, initial_size * sizeof(char *));
-            }
-            result[(*count)++] = token;
-            token = strtok_r(rest, delimiter, &rest);
+    char *work = strdup(txt);
+    char *rest = work;
+    char *token = strtok_r(rest, delimiter, &rest);
+    while (token != NULL) {
+        // Trim des espaces de début/fin (ex. " Pashto" -> "Pashto")
+        while (*token == ' ') token++;
+        char *end = token + strlen(token);
+        while (end > token && end[-1] == ' ') end--;
+        *end = '\0';
+
+        if (*count >= capacity) {
+            capacity *= 2;
+            result = realloc(result, capacity * sizeof(char *));
         }
-    } 
+        result[(*count)++] = strdup(token);
+        token = strtok_r(rest, delimiter, &rest);
+    }
+    free(work);
     return result;
 }
 

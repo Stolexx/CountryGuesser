@@ -12,11 +12,13 @@ void init() {
 }
 
 void new_game() {
-    char answer[10];
-    printf("Voulez-vous démarrer une nouvelle partie ?\n Oui (O) ou Non (N): ");
-    scanf("%s", answer);
-
-    if (to_lowercase(answer)[0] == 'o') {
+    char answer[16];
+    printf("Voulez-vous démarrer une nouvelle partie ?\n Oui (O) ou Non (N) : ");
+    if (!read_line(answer, sizeof(answer))) {
+        printf("\n");
+        return;
+    }
+    if (tolower((unsigned char) answer[0]) == 'o') {
         init();
         new_game();
     }
@@ -27,12 +29,13 @@ void end() {
 }
 
 int main() {
-    printf("Loading countries...\n");
+    printf("Chargement des pays...\n");
     load_countries();
-    printf("Countries loaded!\n");
+    printf("Pays chargés !\n");
 
-    printf("\n >>> " BLK WHTB " Country Guesser 1.0 " reset " <<<\n");
-    printf(BRED "/!\\ " reset RED "Les espaces dans les noms de pays doivent être remplacés par des tirets bas " BRED "/!\\\n\n" reset);
+    printf("\n >>> " BLK WHTB " Country Guessr 1.0 " reset " <<<\n");
+    printf(RED "Astuce : la casse et les espaces sont ignorés (« costa rica » = « Costa_Rica »). Écrivez les noms sans accents.\n" reset);
+    printf(RED "Tapez " BRED "/abandon" reset RED " pour révéler la réponse.\n\n" reset);
 
     init();
     new_game();

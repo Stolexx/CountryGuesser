@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 extern int GAMES;
 extern int COUNTRIES_COUNT;

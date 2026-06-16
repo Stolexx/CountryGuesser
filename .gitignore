@@ -1,0 +1,8 @@
+# Artefacts de build
+*.o
+*.d
+*.out
+
+# Fichiers système / éditeur
+.DS_Store
+.vscode/
