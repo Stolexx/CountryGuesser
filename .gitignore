@@ -6,3 +6,6 @@
 # Fichiers système / éditeur
 .DS_Store
 .vscode/
+
+# Fichiers de config locaux / secrets (ne jamais committer)
+*.cfg
